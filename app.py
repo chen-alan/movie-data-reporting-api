@@ -41,6 +41,11 @@ class MovieEarning(db.Model):
     budget = db.Column(db.Integer)
 
 # ------------------------------------------------------------------------------------------
+def valid_input(input):
+    # simple check for numeric inputs
+    # can add more complex checks if given more time
+    return input.isnumeric()
+
 @app.route('/', methods=['GET'])
 def index():
     return 'Hiya! Wishing you a happy day :)'
@@ -48,6 +53,9 @@ def index():
 
 @app.route('/budgets/<company_id>/<year>', methods=['GET'])
 def get_company_budget_year(company_id, year):
+    if not valid_input(company_id) or not valid_input(year):
+        return jsonify({'error': 'Please enter numeric inputs for company_id and year'})
+
     query = db.session.execute(db.select(Movie, MovieEarning) \
         .join(MovieEarning, Movie.movie_id == MovieEarning.movie_id) \
         .where(MovieEarning.company_id == company_id)
@@ -63,6 +71,9 @@ def get_company_budget_year(company_id, year):
 
 @app.route('/revenues/<company_id>/<year>', methods=['GET'])
 def get_company_revenue_year(company_id, year):
+    if not valid_input(company_id) or not valid_input(year):
+        return jsonify({'error': 'Please enter numeric inputs for company_id and year'})
+
     query = db.session.execute(db.select(Movie, MovieEarning) \
         .join(MovieEarning, Movie.movie_id == MovieEarning.movie_id) \
         .where(MovieEarning.company_id == company_id)
@@ -78,6 +89,9 @@ def get_company_revenue_year(company_id, year):
 
 @app.route('/genres/<year>', methods=['GET'])
 def get_most_popular_genre_year(year):
+    if not valid_input(year):
+        return jsonify({'error': 'Please enter numeric inputs for year'})
+    
     query = db.session.execute(db.select(Movie, MovieGenrePop) \
         .join(MovieGenrePop, Movie.movie_id == MovieGenrePop.movie_id) \
         .filter(extract('year', Movie.release_date) == year))

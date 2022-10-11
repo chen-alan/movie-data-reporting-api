@@ -43,7 +43,8 @@ To get the API up and running, we need to first install Docker (if you don't hav
 1. `/revenues/{production_company_id}/{year}`
     * Returns the production company's revenue for the specified year as an integer.
         * example request: `curl 127.0.0.1:80/revenues/11661/1997`
-      * example response: `237770259`
+        * example response: `237770259`
+        * Default response is `0` when no data is found for the specified production company and/or year.
 
 2. `/budgets/{production_company_id}/{year}`
     * Returns the production company's budget for the specified year as an integer.
@@ -54,6 +55,7 @@ To get the API up and running, we need to first install Docker (if you don't hav
     * Returns the most popular genre for the specified year as a JSON object.
         * example request: `curl 127.0.0.1:80/genres/1997`
         * example response: `{"Thriller":53}`
+        * Default response is `{}` when no data is found for the specified year.
 
 # Running Unit Tests
 Unit tests for this application are implemented using Pytest. You can find the source code in the `./tests` directory.
