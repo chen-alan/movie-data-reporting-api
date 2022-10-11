@@ -50,6 +50,7 @@ To get the API up and running, we need to first install Docker (if you don't hav
     * Returns the production company's budget for the specified year as an integer.
         * example request: `curl 127.0.0.1:80/budgets/11661/1997`
         * example response: `215000000`
+        * Default response is `0` when no data is found for the specified production company and/or year.
 
 3. `/genres/{year}`
     * Returns the most popular genre for the specified year as a JSON object.
